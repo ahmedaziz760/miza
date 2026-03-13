@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)file:///Users/ahmedalghamdi/Downloads/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIZA — Personal Investment Advisor</title>
+<link href="./MIZA — Personal Investment Advisor_files/css2" rel="stylesheet">
+<style>
+:root {
+  --bg: #080a0f;
+  --bg2: #0e1118;
+  --bg3: #141820;
+  --bg4: #1a1f2a;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.1);
+  --border3: rgba(255,255,255,0.16);
+  --text: #e8eaf0;
+  --muted: #5a6070;
+  --muted2: #8892a4;
+  --gold: #c9a96e;
+  --gold2: #e8c88a;
+  --gold-dim: rgba(201,169,110,0.12);
+  --green: #3ecf8e;
+  --green-dim: rgba(62,207,142,0.1);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.1);
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,0.1);
+  --amber: #fbbf24;
+  --amber-dim: rgba(251,191,36,0.1);
+  --purple: #a78bfa;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; line-height: 1.5; }
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ── SHELL ── */
+.shell { display: flex; height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar { width: 210px; min-width: 210px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; }
+.logo-wrap { padding: 20px 18px 16px; border-bottom: 1px solid var(--border); }
+.logo { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--gold); letter-spacing: -1px; }
+.logo span { color: var(--muted2); font-weight: 400; font-size: 11px; display: block; letter-spacing: 1.5px; text-transform: uppercase; margin-top: -2px; }
+.nav-section { padding: 10px 0 4px; }
+.nav-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 18px; margin-bottom: 4px; font-weight: 600; }
+.nav-item { display: flex; align-items: center; gap: 9px; padding: 9px 18px; cursor: pointer; color: var(--muted2); font-size: 12px; font-weight: 500; transition: all 0.12s; border-left: 2px solid transparent; white-space: nowrap; }
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); }
+.nav-icon { font-size: 13px; width: 16px; text-align: center; flex-shrink: 0; }
+.sidebar-bottom { margin-top: auto; padding: 14px 18px; border-top: 1px solid var(--border); }
+.health-pill { display: flex; align-items: center; gap: 8px; }
+.health-circle { width: 36px; height: 36px; flex-shrink: 0; }
+.health-info { flex: 1; }
+.health-score { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; color: var(--gold); line-height: 1; }
+.health-label { font-size: 10px; color: var(--muted2); margin-top: 2px; }
+.pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: pulse 2s infinite; flex-shrink: 0; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+
+/* ── MAIN ── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; border-bottom: 1px solid var(--border); background: var(--bg2); flex-shrink: 0; gap: 12px; }
+.page-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; white-space: nowrap; }
+.topbar-center { flex: 1; display: flex; align-items: center; justify-content: center; }
+.price-ticker { display: flex; gap: 16px; overflow: hidden; }
+.ticker-item { font-size: 11px; white-space: nowrap; }
+.ticker-sym { color: var(--muted2); font-weight: 600; }
+.ticker-price { color: var(--text); margin-left: 4px; }
+.ticker-chg { margin-left: 3px; font-weight: 600; }
+.ticker-up { color: var(--green); }
+.ticker-dn { color: var(--red); }
+.topbar-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.alert-btn { background: var(--red-dim); border: 1px solid rgba(248,113,113,0.25); color: var(--red); padding: 5px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; animation: pulse 2.5s infinite; white-space: nowrap; }
+.refresh-btn { background: transparent; border: 1px solid var(--border2); color: var(--muted2); padding: 5px 11px; border-radius: 20px; font-size: 11px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.refresh-btn:hover { border-color: var(--gold); color: var(--gold); }
+.spinning { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.content { flex: 1; overflow-y: auto; padding: 20px 24px; }
+.page { display: none; animation: fadeIn 0.2s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── GRIDS ── */
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 14px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 14px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.g2r { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 14px; }
+@media(max-width:1000px){ .g4{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(2,1fr)} .g2,.g2r{grid-template-columns:1fr} }
+
+/* ── METRIC CARDS ── */
+.metric { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.metric-label { font-size: 10px; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; font-weight: 600; }
+.metric-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.1; }
+.metric-sub { font-size: 11px; color: var(--muted2); margin-top: 4px; }
+.c-gold { color: var(--gold); }
+.c-green { color: var(--green); }
+.c-red { color: var(--red); }
+.c-amber { color: var(--amber); }
+.c-blue { color: var(--blue); }
+.c-muted { color: var(--muted2); }
+
+/* ── CARDS ── */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; }
+.card-sm { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.card-title { font-size: 10px; font-weight: 700; color: var(--muted2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.card-subtitle { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+
+/* ── BAR ROWS ── */
+.br { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.bl { min-width: 155px; font-size: 11px; color: var(--muted2); }
+.bt { flex: 1; height: 5px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+.bf { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+.bv { min-width: 52px; text-align: right; font-size: 11px; font-weight: 600; }
+
+/* ── DIVIDERS ── */
+.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+.row-div { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.row-div:last-child { border: none; }
+
+/* ── ALERTS ── */
+.alert { border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; font-size: 12px; line-height: 1.65; border-left: 3px solid; }
+.a-danger { background: var(--red-dim); border-color: var(--red); }
+.a-warn { background: var(--amber-dim); border-color: var(--amber); }
+.a-ok { background: var(--green-dim); border-color: var(--green); }
+.a-info { background: var(--blue-dim); border-color: var(--blue); }
+.a-gold { background: var(--gold-dim); border-color: var(--gold); }
+.a-title { font-weight: 700; margin-bottom: 3px; font-size: 12px; }
+
+/* ── TAGS ── */
+.tag { display: inline-block; padding: 2px 7px; border-radius: 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+.t-red { background: var(--red-dim); color: var(--red); }
+.t-green { background: var(--green-dim); color: var(--green); }
+.t-amber { background: var(--amber-dim); color: var(--amber); }
+.t-blue { background: var(--blue-dim); color: var(--blue); }
+.t-gold { background: var(--gold-dim); color: var(--gold); }
+.t-muted { background: rgba(255,255,255,0.06); color: var(--muted2); }
+
+/* ── PORTFOLIO TABLE ── */
+.ptable { width: 100%; border-collapse: collapse; }
+.ptable th { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; padding: 0 10px 10px; text-align: right; font-weight: 700; }
+.ptable th:first-child { text-align: left; }
+.ptable td { padding: 10px; border-bottom: 1px solid var(--border); font-size: 12px; vertical-align: middle; }
+.ptable tr:last-child td { border-bottom: none; }
+.ptable tr:hover td { background: rgba(255,255,255,0.02); }
+.ptable td:not(:first-child) { text-align: right; }
+.ticker-cell { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px; color: var(--gold); }
+.name-cell { font-size: 11px; color: var(--muted2); }
+.pnl-bar { width: 60px; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; margin-left: auto; overflow: hidden; }
+.pnl-fill { height: 100%; border-radius: 2px; }
+.signal-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+
+/* ── GOALS ── */
+.goal-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
+.goal-card:hover { border-color: var(--border2); }
+.goal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+.goal-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.goal-deadline { font-size: 11px; color: var(--muted2); margin-top: 2px; }
+.goal-progress { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+.goal-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+.goal-nums { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted2); }
+.goal-form { background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+.goal-form input, .goal-form select { background: var(--bg4); border: 1px solid var(--border2); border-radius: 6px; padding: 8px 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; transition: border-color 0.15s; }
+.goal-form input:focus, .goal-form select:focus { border-color: var(--gold); }
+.goal-form input::placeholder { color: var(--muted); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: end; margin-bottom: 8px; }
+.form-label { font-size: 10px; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; font-weight: 600; }
+.btn { padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; transition: all 0.15s; }
+.btn-gold { background: var(--gold); color: var(--bg); }
+.btn-gold:hover { background: var(--gold2); }
+.btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--muted2); }
+.btn-ghost:hover { border-color: var(--border3); color: var(--text); }
+.btn-danger { background: var(--red-dim); border: 1px solid rgba(248,113,113,0.25); color: var(--red); }
+
+/* ── RISK PROFILE ── */
+.risk-slider-wrap { margin-bottom: 18px; }
+.risk-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.risk-label { font-size: 12px; font-weight: 500; color: var(--text); }
+.risk-val { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--gold); }
+input[type=range] { width: 100%; accent-color: var(--gold); cursor: pointer; height: 4px; }
+.risk-result { background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 14px; margin-top: 14px; }
+.risk-gauge { display: flex; gap: 3px; margin-bottom: 12px; }
+.risk-seg { height: 8px; flex: 1; border-radius: 2px; opacity: 0.3; transition: opacity 0.3s; }
+.risk-seg.active { opacity: 1; }
+
+/* ── SIGNALS ── */
+.signal-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.signal-item:last-child { border: none; }
+.signal-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+.si-red { background: var(--red-dim); }
+.si-amber { background: var(--amber-dim); }
+.si-green { background: var(--green-dim); }
+.si-blue { background: var(--blue-dim); }
+.si-gold { background: var(--gold-dim); }
+.signal-content { flex: 1; }
+.signal-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.signal-desc { font-size: 12px; color: var(--muted2); line-height: 1.6; }
+.signal-meta { font-size: 10px; color: var(--muted); margin-top: 4px; }
+.signal-action { font-size: 11px; color: var(--gold); cursor: pointer; margin-top: 4px; display: inline-block; }
+.signal-action:hover { text-decoration: underline; }
+
+/* ── SCENARIO ── */
+.sc-row { display: flex; justify-content: space-between; font-size: 12px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.sc-row:last-child { border: none; font-weight: 700; font-size: 13px; }
+
+/* ── CHAT ── */
+.chat-outer { display: flex; flex-direction: column; height: calc(100vh - 130px); min-height: 400px; }
+.chat-msgs { flex: 1; overflow-y: auto; padding: 16px; background: var(--bg3); border-radius: 12px 12px 0 0; border: 1px solid var(--border); border-bottom: none; }
+.cmsg { margin-bottom: 14px; display: flex; flex-direction: column; }
+.cmsg.user { align-items: flex-end; }
+.cmsg.ai { align-items: flex-start; }
+.cbub { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.7; }
+.cmsg.user .cbub { background: var(--gold); color: var(--bg); border-radius: 12px 12px 2px 12px; font-weight: 500; }
+.cmsg.ai .cbub { background: var(--bg2); border: 1px solid var(--border2); color: var(--text); border-radius: 12px 12px 12px 2px; }
+.chat-bottom { background: var(--bg2); border: 1px solid var(--border2); border-top: none; border-radius: 0 0 12px 12px; }
+.qa-wrap { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 12px 0; }
+.qa { padding: 5px 11px; border-radius: 16px; border: 1px solid var(--border2); background: transparent; color: var(--muted2); font-size: 11px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.12s; white-space: nowrap; }
+.qa:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+.chat-input-row { display: flex; }
+.chat-input-row input { flex: 1; padding: 13px 16px; background: transparent; border: none; color: var(--text); font-size: 13px; outline: none; font-family: 'DM Sans', sans-serif; }
+.chat-input-row input::placeholder { color: var(--muted); }
+.send-btn { padding: 13px 20px; background: var(--gold); color: var(--bg); border: none; cursor: pointer; font-size: 12px; font-weight: 700; font-family: 'Syne', sans-serif; border-radius: 0 0 12px 0; transition: background 0.15s; }
+.send-btn:hover { background: var(--gold2); }
+.ty span { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--muted2); animation: tb 1.2s infinite; margin-right: 3px; }
+.ty span:nth-child(2){animation-delay:.2s}.ty span:nth-child(3){animation-delay:.4s}
+@keyframes tb{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+
+/* ── LIVE PRICE STATUS ── */
+.price-status { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted2); padding: 6px 0; margin-bottom: 10px; }
+.price-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.price-dot.stale { background: var(--amber); }
+.price-dot.loading { background: var(--blue); animation: pulse 1s infinite; }
+
+/* ── NET WORTH CHART ── */
+.nw-big { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+.nw-sub { font-size: 12px; color: var(--muted2); }
+.mini-chart { display: flex; align-items: flex-end; gap: 3px; height: 40px; margin-top: 12px; }
+.mini-bar { flex: 1; border-radius: 2px 2px 0 0; transition: height 0.5s ease; }
+
+/* ── BRIEFING SCORE ── */
+.score-big { display: flex; align-items: center; gap: 20px; padding: 16px; background: var(--bg3); border-radius: 12px; margin-bottom: 14px; }
+.score-ring-wrap { position: relative; width: 70px; height: 70px; flex-shrink: 0; }
+.score-ring-wrap svg { transform: rotate(-90deg); }
+.score-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--gold); }
+.score-breakdown { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.sb-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+.sb-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="logo-wrap">
+    <div class="logo">MIZA<span>Investment Advisor</span></div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" onclick="nav(&#39;dashboard&#39;,this)"><span class="nav-icon">◈</span>Dashboard</div>
+    <div class="nav-item" onclick="nav(&#39;signals&#39;,this)">
+      <span class="nav-icon">◉</span>Signals
+      <span id="signal-badge" style="margin-left:auto;background:var(--red-dim);color:var(--red);border-radius:10px;padding:1px 6px;font-size:10px;font-weight:700">2</span>
+    </div>
+    <div class="nav-item" onclick="nav(&#39;briefing&#39;,this)"><span class="nav-icon">◷</span>Weekly briefing</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Money</div>
+    <div class="nav-item" onclick="nav(&#39;networth&#39;,this)"><span class="nav-icon">◎</span>Net worth</div>
+    <div class="nav-item" onclick="nav(&#39;cashflow&#39;,this)"><span class="nav-icon">≋</span>Cash flow</div>
+    <div class="nav-item" onclick="nav(&#39;debt&#39;,this)"><span class="nav-icon">▣</span>Debt payoff</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Investing</div>
+    <div class="nav-item" onclick="nav(&#39;portfolio&#39;,this)"><span class="nav-icon">◷</span>Portfolio</div>
+    <div class="nav-item" onclick="nav(&#39;goals&#39;,this)"><span class="nav-icon">⟁</span>Goals</div>
+    <div class="nav-item" onclick="nav(&#39;scenario&#39;,this)"><span class="nav-icon">✦</span>Scenarios</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Advisor</div>
+    <div class="nav-item" onclick="nav(&#39;advisor&#39;,this)"><span class="nav-icon">✦</span>AI Advisor</div>
+    <div class="nav-item" onclick="nav(&#39;risk&#39;,this)"><span class="nav-icon">⬡</span>Risk profile</div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="health-pill">
+      <div class="health-circle">
+        <svg width="36" height="36" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"></circle>
+          <circle cx="18" cy="18" r="14" fill="none" stroke="#c9a96e" stroke-width="4" stroke-dasharray="87.96" stroke-dashoffset="30.79" stroke-linecap="round" transform="rotate(-90 18 18)"></circle>
+        </svg>
+      </div>
+      <div class="health-info">
+        <div class="health-score">65<span style="font-size:11px;font-weight:400;color:var(--muted2)">/100</span></div>
+        <div class="health-label">Financial health</div>
+      </div>
+      <div class="pulse-dot"></div>
+    </div>
+    <div onclick="showKeyModal()" style="margin-top:10px;display:flex;align-items:center;gap:7px;cursor:pointer;padding:7px 0;color:var(--muted);font-size:11px;transition:color 0.15s;" onmouseover="this.style.color=&#39;var(--gold)&#39;" onmouseout="this.style.color=&#39;var(--muted)&#39;">
+      <span>⚙</span><span>API key settings</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="page-title" id="page-title">Dashboard</div>
+    <div class="topbar-center">
+      <div class="price-ticker" id="price-ticker">
+        <span class="ticker-item"><span class="ticker-sym">TASI</span><span class="ticker-price" id="tk-tasi">—</span></span>
+        <span class="ticker-item"><span class="ticker-sym">SAL</span><span class="ticker-price" id="tk-sal">—</span></span>
+        <span class="ticker-item"><span class="ticker-sym">ELM</span><span class="ticker-price" id="tk-elm">—</span></span>
+        <span class="ticker-item"><span class="ticker-sym">Bupa</span><span class="ticker-price" id="tk-bupa">—</span></span>
+        <span class="ticker-item"><span class="ticker-sym">LEEJAM</span><span class="ticker-price" id="tk-leejam">—</span></span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="alert-btn" onclick="nav(&#39;signals&#39;,document.querySelectorAll(&#39;.nav-item&#39;)[1])">⚠ 2 urgent</div>
+      <div class="refresh-btn" id="hide-btn" onclick="toggleBalances()" title="Hide/show balances">👁 Hide</div>
+      <div class="refresh-btn" id="refresh-btn" onclick="fetchPrices()">⟳ Refresh prices</div>
+    </div>
+  </div>
+
+  <!-- Thursday reminder banner -->
+  <div id="thursday-banner" style="display:none;background:linear-gradient(90deg,rgba(201,169,110,0.15),rgba(201,169,110,0.05));border-bottom:1px solid rgba(201,169,110,0.3);padding:10px 24px;align-items:center;gap:12px;flex-shrink:0;">
+    <span style="font-size:16px">📂</span>
+    <div style="flex:1">
+      <span style="font-weight:700;color:var(--gold);font-size:12px">Thursday reminder — </span>
+      <span style="font-size:12px;color:var(--muted2)">Time to download your Al Rajhi statement and upload it to MIZA. Takes 5 minutes.</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div style="background:var(--gold);color:var(--bg);padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer" onclick="dismissThursdayBanner()">Done ✓</div>
+      <div style="color:var(--muted);font-size:20px;cursor:pointer;padding:0 6px;line-height:1" onclick="dismissThursdayBanner()">×</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+        <div class="price-status"><div class="price-dot loading" id="price-dot"></div><span id="price-status-text">Fetching live TASI prices...</span></div>
+      </div>
+      <div class="g4">
+        <div class="metric"><div class="metric-label">Monthly salary</div><div class="metric-val c-gold">36,500</div><div class="metric-sub">SAR · 25th of month</div></div>
+        <div class="metric"><div class="metric-label">Fixed obligations</div><div class="metric-val c-amber">18,039</div><div class="metric-sub">49% of salary</div></div>
+        <div class="metric"><div class="metric-label">Portfolio value</div><div class="metric-val c-red" id="dash-port-val">101,682</div><div class="metric-sub" id="dash-port-sub">− SAR 37,088 unrealized</div></div>
+        <div class="metric"><div class="metric-label">Al Rajhi cash</div><div class="metric-val">6,727</div><div class="metric-sub">As of 12 Mar 2026</div></div>
+      </div>
+      <div class="g2r">
+        <div>
+          <div class="card">
+            <div class="card-title">Salary allocation — average month</div>
+            <div class="br"><span class="bl">Alinma personal finance</span><div class="bt"><div class="bf" style="width:100%;background:#f87171"></div></div><span class="bv c-red">10,149</span></div>
+            <div class="br"><span class="bl">ANB EPP (0% int.)</span><div class="bt"><div class="bf" style="width:22%;background:#fbbf24"></div></div><span class="bv c-amber">2,224</span></div>
+            <div class="br"><span class="bl">Al Rajhi loan</span><div class="bt"><div class="bf" style="width:19%;background:#fb923c"></div></div><span class="bv c-amber">1,908</span></div>
+            <div class="br"><span class="bl">Mortgage (Ijarah)</span><div class="bt"><div class="bf" style="width:19%;background:#c9a96e"></div></div><span class="bv c-gold">1,957</span></div>
+            <div class="br"><span class="bl">Driver salary</span><div class="bt"><div class="bf" style="width:18%;background:#a78bfa"></div></div><span class="bv" style="color:var(--purple)">1,800</span></div>
+            <div class="br"><span class="bl">ARC investing</span><div class="bt"><div class="bf" style="width:49%;background:#3ecf8e"></div></div><span class="bv c-green">5,000</span></div>
+            <div class="br"><span class="bl">Dining &amp; cafes</span><div class="bt"><div class="bf" style="width:34%;background:#60a5fa"></div></div><span class="bv c-blue">3,500</span></div>
+            <div class="br"><span class="bl">D360 travel/shop</span><div class="bt"><div class="bf" style="width:29%;background:#818cf8"></div></div><span class="bv" style="color:#818cf8">3,000</span></div>
+            <div class="br"><span class="bl">Fuel + groceries</span><div class="bt"><div class="bf" style="width:14%;background:#34d399"></div></div><span class="bv" style="color:#34d399">1,900</span></div>
+            <div class="br"><span class="bl">STC + pharma</span><div class="bt"><div class="bf" style="width:12%;background:#94a3b8"></div></div><span class="bv c-muted">1,600</span></div>
+            <div class="div"></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px">
+              <span class="c-muted">Est. monthly surplus</span>
+              <span class="c-green" style="font-weight:700">SAR ~3,500</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:12px">
+            <div class="card-title">Accounts &amp; assets</div>
+            <div class="row-div"><span class="c-muted">Al Rajhi</span><span>SAR 6,727</span></div>
+            <div class="row-div"><span class="c-muted">ARC Portfolio (Ahmed)</span><span class="c-red" id="dash-pval">SAR 101,682</span></div>
+            <div class="row-div"><span class="c-muted">ARC Portfolio (Abdulrahman)</span><span>SAR 79,082</span></div>
+            <div class="row-div"><span class="c-muted">STC Bank (transit)</span><span class="c-muted">SAR 48</span></div>
+            <div class="div"></div>
+            <div class="row-div" style="font-weight:700;font-size:13px"><span>Liquid + investments</span><span class="c-gold" id="dash-total">SAR 187,539</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Upcoming actions</div>
+            <div class="row-div"><span style="color:var(--red)">⚠ Alinma CC due</span><span style="color:var(--red);font-weight:700">25 Mar · SAR 3,899</span></div>
+            <div class="row-div"><span class="c-muted">ANB CC due</span><span>2 Apr · SAR 1,743</span></div>
+            <div class="row-div"><span class="c-green">+ Salary incoming</span><span class="c-green">~25 Mar · SAR 36,500</span></div>
+            <div class="row-div"><span class="c-blue">EPP ends</span><span class="c-blue">Jun 2026 · +SAR 2,224/mo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNALS PAGE -->
+    <div class="page" id="page-signals">
+      <div class="card" id="signals-card">
+        <div class="card-title">Proactive signals — updated on load</div>
+        <div id="signals-list">
+          <div class="signal-item">
+            <div class="signal-icon si-red">⚠</div>
+            <div class="signal-content">
+              <div class="signal-title">Alinma CC — SAR 3,899 due in 12 days</div>
+              <div class="signal-desc">13% APR will kick in after 25 March. You have SAR 6,727 in Al Rajhi — enough to clear this now. After payment, balance drops to SAR 2,828, with salary arriving ~10 days later.</div>
+              <div class="signal-meta">Priority: IMMEDIATE · Source: Alinma statement 1 Mar 2026</div>
+              <span class="signal-action" onclick="ask(&#39;Help me plan paying the Alinma CC SAR 3,899 before March 25&#39;)">→ Plan this with advisor</span>
+            </div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon si-amber">▼</div>
+            <div class="signal-content">
+              <div class="signal-title">Portfolio down 26.7% — 5 positions critical</div>
+              <div class="signal-desc">ENTAJ −54.7%, NICE ONE −67.4%, UCIC −53.2%, WATANIYA −43.5%, LUMI −45.2%. These 5 positions collectively hold SAR 16,273 in market value but cost SAR ~36,000. Requires hold/cut decision.</div>
+              <div class="signal-meta">Priority: HIGH · Source: ARC Holistic View 13 Mar 2026</div>
+              <span class="signal-action" onclick="ask(&#39;Give me a detailed hold/cut analysis for ENTAJ, NICE ONE, UCIC, WATANIYA and LUMI&#39;)">→ Get cut/hold analysis</span>
+            </div>
+          </div>
+          <div class="signal-item" id="live-signal-1">
+            <div class="signal-icon si-blue">⟳</div>
+            <div class="signal-content">
+              <div class="signal-title">Loading live market signals...</div>
+              <div class="signal-desc">Fetching current TASI data to generate price-based signals for your holdings.</div>
+            </div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon si-green">✓</div>
+            <div class="signal-content">
+              <div class="signal-title">March cash flow on track — best month this quarter</div>
+              <div class="signal-desc">No D360 spend, SAR 8K invested on day 1. Projected to end March with SAR 5–8K surplus for the first time this quarter. Sustain this pattern for 3 months and you clear your Alinma CC fully from salary alone.</div>
+              <div class="signal-meta">Priority: POSITIVE · Based on Al Rajhi statement 12 Mar 2026</div>
+            </div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon si-gold">◎</div>
+            <div class="signal-content">
+              <div class="signal-title">ANB EPP ends June 2026 — SAR 2,224/month freeing up</div>
+              <div class="signal-desc">All 4 EPP plans finish within 4 months at 0% interest. Decision needed now: redirect to ARC investing or use to accelerate Alinma paydown? Given portfolio is underwater, debt paydown may have better risk-adjusted return.</div>
+              <div class="signal-meta">Priority: PLAN AHEAD · EPP balance: SAR 7,211</div>
+              <span class="signal-action" onclick="ask(&#39;Should I redirect the SAR 2,224 from ending ANB EPP to investing or debt paydown?&#39;)">→ Model this scenario</span>
+            </div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon si-blue">✈</div>
+            <div class="signal-content">
+              <div class="signal-title">94,881 Alfursan miles — value sitting idle</div>
+              <div class="signal-desc">At current Alfursan redemption rates, these cover business class to Europe or 2–3 economy international flights. You've been booking Saudi Airlines with cash (SAR 4,012 in Feb alone). Redeem miles on your next booking.</div>
+              <div class="signal-meta">Priority: QUICK WIN · ANB Alfursan Infinite card</div>
+              <span class="signal-action" onclick="ask(&#39;How should I best use my 94,881 Alfursan miles?&#39;)">→ Ask about miles strategy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEKLY BRIEFING -->
+    <div class="page" id="page-briefing">
+      <div class="score-big">
+        <div class="score-ring-wrap">
+          <svg width="70" height="70" viewBox="0 0 70 70">
+            <circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7"></circle>
+            <circle cx="35" cy="35" r="28" fill="none" stroke="#c9a96e" stroke-width="7" stroke-dasharray="175.93" stroke-dashoffset="61.58" stroke-linecap="round" transform="rotate(-90 35 35)"></circle>
+          </svg>
+          <div class="score-num">65</div>
+        </div>
+        <div class="score-breakdown">
+          <div class="sb-item"><div class="sb-dot" style="background:var(--green)"></div><span class="c-muted">Income strength: </span>&nbsp;<span class="c-green">Strong</span></div>
+          <div class="sb-item"><div class="sb-dot" style="background:var(--amber)"></div><span class="c-muted">Debt ratio: </span>&nbsp;<span class="c-amber">High</span></div>
+          <div class="sb-item"><div class="sb-dot" style="background:var(--green)"></div><span class="c-muted">Investing habit: </span>&nbsp;<span class="c-green">Active</span></div>
+          <div class="sb-item"><div class="sb-dot" style="background:var(--red)"></div><span class="c-muted">Portfolio: </span>&nbsp;<span class="c-red">Underwater</span></div>
+          <div class="sb-item"><div class="sb-dot" style="background:var(--amber)"></div><span class="c-muted">Liquidity: </span>&nbsp;<span class="c-amber">Tight</span></div>
+          <div class="sb-item"><div class="sb-dot" style="background:var(--green)"></div><span class="c-muted">March trend: </span>&nbsp;<span class="c-green">Improving</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Weekly briefing — 13 March 2026</div>
+        <div class="signal-item"><div class="signal-icon si-red">1</div><div class="signal-content"><div class="signal-title">Pay Alinma CC today — SAR 3,899 due 25 Mar</div><div class="signal-desc">You have SAR 6,727 available. After paying, balance = SAR 2,828. Salary arrives ~25 Mar. No reason to wait — every day costs you at 13% APR.</div><div class="signal-meta">Action: Transfer SAR 3,899 from Al Rajhi → Alinma CC</div></div></div>
+        <div class="signal-item"><div class="signal-icon si-amber">2</div><div class="signal-content"><div class="signal-title">Review 5 deeply underwater portfolio positions</div><div class="signal-desc">ENTAJ, NICE ONE, UCIC, WATANIYA, LUMI are all down 43–67%. Unless you have a strong conviction on each, small positions with large losses should be evaluated for tax-loss harvesting or reallocation to stronger convictions like SAL or ELM.</div><div class="signal-meta">Action: Ask AI Advisor for position-by-position review</div></div></div>
+        <div class="signal-item"><div class="signal-icon si-green">3</div><div class="signal-content"><div class="signal-title">Sustain March pattern — you're on track</div><div class="signal-desc">No D360, early investing, lean spending. If you replicate March for Q2, you'd generate SAR 18–21K in savings over 3 months — enough to fully clear your Alinma CC and start building a 1-month salary emergency buffer.</div><div class="signal-meta">Action: Keep D360 at zero until further notice</div></div></div>
+        <div class="signal-item"><div class="signal-icon si-blue">4</div><div class="signal-content"><div class="signal-title">Decide now what to do with SAR 2,224 freeing up in June</div><div class="signal-desc">ANB EPP ends in 3–4 months. This is a meaningful cash flow improvement. Decide in advance so it doesn't get absorbed into lifestyle. Recommendation: split — SAR 1,000 to Alinma accelerated paydown, SAR 1,224 to ARC monthly DCA.</div><div class="signal-meta">Action: Set a standing order decision before June</div></div></div>
+        <div class="signal-item"><div class="signal-icon si-gold">5</div><div class="signal-content"><div class="signal-title">Get Alinma loan amortization schedules</div><div class="signal-desc">You're paying SAR 12,106/month to Alinma but don't know remaining balances or terms. This is the single biggest gap in your net worth picture — without it, you can't plan payoff or refinancing accurately.</div><div class="signal-meta">Action: Request schedules from Alinma app or branch</div></div></div>
+      </div>
+    </div>
+
+    <!-- NET WORTH -->
+    <div class="page" id="page-networth">
+      <div class="g2">
+        <div class="card">
+          <div class="card-title">Total liquid + investments</div>
+          <div class="nw-big" id="nw-total">SAR 187,661</div>
+          <div class="nw-sub">Excludes real estate equity (unknown) and loan liabilities</div>
+          <div class="mini-chart">
+            <div class="mini-bar" style="height:30%;background:var(--red);opacity:0.5" title="Nov"></div>
+            <div class="mini-bar" style="height:45%;background:var(--red);opacity:0.6" title="Dec"></div>
+            <div class="mini-bar" style="height:55%;background:var(--amber);opacity:0.7" title="Jan"></div>
+            <div class="mini-bar" style="height:80%;background:var(--gold)" title="Feb (bonus)"></div>
+            <div class="mini-bar" style="height:65%;background:var(--gold)" title="Mar (est.)"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px"><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Assets breakdown</div>
+          <div class="row-div"><span class="c-muted">Al Rajhi cash</span><span>SAR 6,727</span></div>
+          <div class="row-div"><span class="c-muted">ARC Portfolio (Ahmed)</span><span class="c-red" id="nw-port1">SAR 101,682</span></div>
+          <div class="row-div"><span class="c-muted">ARC Portfolio (Abdulrahman)</span><span>SAR 79,082</span></div>
+          <div class="row-div"><span class="c-muted">Real estate (est.)</span><span class="c-muted">SAR 500,000+</span></div>
+          <div class="div"></div>
+          <div class="row-div" style="font-weight:700"><span>Liquid + investments</span><span class="c-gold" id="nw-liq">SAR 187,539</span></div>
+          <div class="row-div" style="font-weight:700"><span>Incl. real estate</span><span class="c-gold">SAR 687,661+</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Liabilities (estimated — need amortization schedules for exact figures)</div>
+        <div class="g3" style="margin-bottom:0">
+          <div class="card-sm"><div class="metric-label">Alinma personal finance</div><div style="font-family:&#39;Syne&#39;,sans-serif;font-size:18px;font-weight:700;color:var(--red)">~SAR 400K+</div><div class="metric-sub">SAR 10,149/mo · term unknown</div></div>
+          <div class="card-sm"><div class="metric-label">Mortgage (Ijarah)</div><div style="font-family:&#39;Syne&#39;,sans-serif;font-size:18px;font-weight:700;color:var(--red)">~SAR 400K+</div><div class="metric-sub">SAR 1,957/mo · SAR 500K property</div></div>
+          <div class="card-sm"><div class="metric-label">Al Rajhi personal loan</div><div style="font-family:&#39;Syne&#39;,sans-serif;font-size:18px;font-weight:700;color:var(--amber)">~SAR 80K+</div><div class="metric-sub">SAR 1,908/mo · term unknown</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASH FLOW -->
+    <div class="page" id="page-cashflow">
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <button class="btn btn-gold" onclick="showCF(&#39;jan&#39;,this)">January</button>
+        <button class="btn btn-ghost" onclick="showCF(&#39;feb&#39;,this)">February</button>
+        <button class="btn btn-ghost" onclick="showCF(&#39;mar&#39;,this)">March (partial)</button>
+      </div>
+      <div id="cf-jan">
+        <div class="g4">
+          <div class="metric"><div class="metric-label">Salary</div><div class="metric-val c-gold">36,500</div><div class="metric-sub">25 Jan</div></div>
+          <div class="metric"><div class="metric-label">Total outflows</div><div class="metric-val c-red">~47,000</div><div class="metric-sub">Deficit month</div></div>
+          <div class="metric"><div class="metric-label">D360 spend</div><div class="metric-val c-red">13,000</div><div class="metric-sub">Travel + shopping</div></div>
+          <div class="metric"><div class="metric-label">Investing</div><div class="metric-val c-muted">0</div><div class="metric-sub">No ARC transfers</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">January full breakdown</div>
+          <div class="br"><span class="bl">D360 travel/shopping</span><div class="bt"><div class="bf" style="width:100%;background:#818cf8"></div></div><span class="bv" style="color:#818cf8">13,000</span></div>
+          <div class="br"><span class="bl">Alinma finance</span><div class="bt"><div class="bf" style="width:78%;background:#f87171"></div></div><span class="bv c-red">10,149</span></div>
+          <div class="br"><span class="bl">Dining &amp; cafes</span><div class="bt"><div class="bf" style="width:36%;background:#60a5fa"></div></div><span class="bv c-blue">4,700</span></div>
+          <div class="br"><span class="bl">AlUla trip</span><div class="bt"><div class="bf" style="width:16%;background:#34d399"></div></div><span class="bv" style="color:#34d399">2,100</span></div>
+          <div class="br"><span class="bl">Family transfers</span><div class="bt"><div class="bf" style="width:15%;background:#94a3b8"></div></div><span class="bv c-muted">1,950</span></div>
+          <div class="br"><span class="bl">Driver salary</span><div class="bt"><div class="bf" style="width:14%;background:#a78bfa"></div></div><span class="bv" style="color:var(--purple)">1,800</span></div>
+          <div class="br"><span class="bl">Mortgage (Ijarah)</span><div class="bt"><div class="bf" style="width:15%;background:#c9a96e"></div></div><span class="bv c-gold">1,957</span></div>
+          <div class="br"><span class="bl">Al Rajhi loan</span><div class="bt"><div class="bf" style="width:15%;background:#fb923c"></div></div><span class="bv c-amber">1,908</span></div>
+          <div class="br"><span class="bl">STC + bills</span><div class="bt"><div class="bf" style="width:12%;background:#94a3b8"></div></div><span class="bv c-muted">1,550</span></div>
+          <div class="br"><span class="bl">Fuel + groceries</span><div class="bt"><div class="bf" style="width:14%;background:#3ecf8e"></div></div><span class="bv c-green">1,800</span></div>
+        </div>
+        <div class="alert a-danger"><div class="a-title">Deficit month — exceeded salary by ~SAR 10,500</div>D360 alone (SAR 13K) + AlUla trip pushed discretionary spend to ~SAR 23K before any fixed obligations. Balance fell from SAR 16K opening to SAR 5.9K closing.</div>
+      </div>
+      <div id="cf-feb" style="display:none">
+        <div class="g4">
+          <div class="metric"><div class="metric-label">Total income</div><div class="metric-val c-gold">180,500</div><div class="metric-sub">+SAR 144K bonus</div></div>
+          <div class="metric"><div class="metric-label">CC cleared</div><div class="metric-val c-red">74,906</div><div class="metric-sub">Large payoff</div></div>
+          <div class="metric"><div class="metric-label">ARC investing</div><div class="metric-val c-green">10,000</div><div class="metric-sub">Two transfers</div></div>
+          <div class="metric"><div class="metric-label">Outward transfers</div><div class="metric-val c-muted">47,590</div><div class="metric-sub">4 large transfers</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">February — bonus deployment</div>
+          <div class="br"><span class="bl">Credit card payoff</span><div class="bt"><div class="bf" style="width:100%;background:#f87171"></div></div><span class="bv c-red">74,906</span></div>
+          <div class="br"><span class="bl">Outward transfers (×4)</span><div class="bt"><div class="bf" style="width:64%;background:#fb923c"></div></div><span class="bv c-amber">47,590</span></div>
+          <div class="br"><span class="bl">Alinma finance</span><div class="bt"><div class="bf" style="width:14%;background:#fbbf24"></div></div><span class="bv c-amber">10,149</span></div>
+          <div class="br"><span class="bl">ARC investing</span><div class="bt"><div class="bf" style="width:13%;background:#3ecf8e"></div></div><span class="bv c-green">10,000</span></div>
+          <div class="br"><span class="bl">Saudi Airlines</span><div class="bt"><div class="bf" style="width:5%;background:#818cf8"></div></div><span class="bv" style="color:#818cf8">4,012</span></div>
+          <div class="br"><span class="bl">Mortgage + Al Rajhi</span><div class="bt"><div class="bf" style="width:5%;background:#c9a96e"></div></div><span class="bv c-gold">3,865</span></div>
+          <div class="br"><span class="bl">Driver salary</span><div class="bt"><div class="bf" style="width:2%;background:#a78bfa"></div></div><span class="bv" style="color:var(--purple)">1,800</span></div>
+        </div>
+        <div class="alert a-ok"><div class="a-title">Bonus well deployed</div>SAR 144K cleared a large CC and settled transfers. You still invested SAR 10K into ARC.</div>
+      </div>
+      <div id="cf-mar" style="display:none">
+        <div class="g4">
+          <div class="metric"><div class="metric-label">Salary expected</div><div class="metric-val c-gold">36,500</div><div class="metric-sub">~25 March</div></div>
+          <div class="metric"><div class="metric-label">Spend to 12 Mar</div><div class="metric-val c-amber">~17,500</div><div class="metric-sub">Incl. driver + mortgage</div></div>
+          <div class="metric"><div class="metric-label">ARC investing</div><div class="metric-val c-green">8,000</div><div class="metric-sub">1 Mar: 5K + 3K</div></div>
+          <div class="metric"><div class="metric-label">Current balance</div><div class="metric-val">6,727</div><div class="metric-sub">Al Rajhi 12 Mar</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">March 1–12</div>
+          <div class="br"><span class="bl">ARC investing</span><div class="bt"><div class="bf" style="width:100%;background:#3ecf8e"></div></div><span class="bv c-green">8,000</span></div>
+          <div class="br"><span class="bl">STC bills</span><div class="bt"><div class="bf" style="width:27%;background:#94a3b8"></div></div><span class="bv c-muted">2,169</span></div>
+          <div class="br"><span class="bl">Driver salary</span><div class="bt"><div class="bf" style="width:22%;background:#a78bfa"></div></div><span class="bv" style="color:var(--purple)">1,800</span></div>
+          <div class="br"><span class="bl">Mortgage (Ijarah)</span><div class="bt"><div class="bf" style="width:24%;background:#c9a96e"></div></div><span class="bv c-gold">1,957</span></div>
+          <div class="br"><span class="bl">Dining</span><div class="bt"><div class="bf" style="width:22%;background:#60a5fa"></div></div><span class="bv c-blue">1,750</span></div>
+          <div class="br"><span class="bl">Fuel + groceries</span><div class="bt"><div class="bf" style="width:10%;background:#3ecf8e"></div></div><span class="bv c-green">800</span></div>
+          <div class="br"><span class="bl">Pharmacies</span><div class="bt"><div class="bf" style="width:8%;background:#fbbf24"></div></div><span class="bv c-amber">620</span></div>
+        </div>
+        <div class="alert a-ok"><div class="a-title">Best month — no D360, SAR 8K invested day 1</div>Salary 25 Mar will fully restore balance and cover remaining obligations.</div>
+      </div>
+    </div>
+
+    <!-- DEBT -->
+    <div class="page" id="page-debt">
+      <div class="g4">
+        <div class="metric"><div class="metric-label">Total debt service</div><div class="metric-val c-red">16,239</div><div class="metric-sub">SAR/month · 44% salary</div></div>
+        <div class="metric"><div class="metric-label">Highest APR</div><div class="metric-val c-red">13%</div><div class="metric-sub">Alinma CC · SAR 3,899</div></div>
+        <div class="metric"><div class="metric-label">0% EPP ending</div><div class="metric-val c-green">Jun 2026</div><div class="metric-sub">Frees SAR 2,224/mo</div></div>
+        <div class="metric"><div class="metric-label">Cash to clear CC</div><div class="metric-val c-green">✓ Yes</div><div class="metric-sub">SAR 6,727 available now</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Debt priority ladder</div>
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:600;color:var(--red)">1. Alinma CC — SAR 3,899 · 13% APR</span><span class="t-red">PAY NOW</span></div>
+          <div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:78%;background:var(--red);border-radius:4px"></div></div>
+          <div style="font-size:11px;color:var(--muted2);margin-top:4px">Due 25 March. You have SAR 6,727. Pay today.</div>
+        </div>
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:600;color:var(--amber)">2. KADI TRADING EPP — SAR 197 · 1 month</span><span class="t-amber">1 MONTH</span></div>
+          <div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:8%;background:var(--amber);border-radius:4px"></div></div>
+        </div>
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:600;color:var(--amber)">3. AL ROMAIZAN EPP — SAR 3,434 · 3 months</span><span class="t-amber">3 MONTHS</span></div>
+          <div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:46%;background:var(--amber);border-radius:4px"></div></div>
+        </div>
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:600;color:var(--blue)">4. CAMNY + others EPP — SAR 3,777 · 4 months</span><span class="t-blue">4 MONTHS</span></div>
+          <div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:51%;background:var(--blue);border-radius:4px"></div></div>
+        </div>
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:600;color:var(--gold)">5. Al Rajhi loan — est. SAR 80K+ · SAR 1,908/mo</span><span class="t-gold">ONGOING</span></div>
+          <div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:65%;background:var(--gold);border-radius:4px"></div></div>
+        </div>
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:600;color:var(--purple)">6. Mortgage Ijarah — est. SAR 400K+ · SAR 1,957/mo</span><span class="t-muted">LONG TERM</span></div>
+          <div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:80%;background:var(--purple);border-radius:4px"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:600;color:var(--red)">7. Alinma personal finance — est. SAR 400K+ · SAR 10,149/mo</span><span class="t-red">DOMINANT</span></div>
+          <div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:96%;background:var(--red);border-radius:4px"></div></div>
+          <div style="font-size:11px;color:var(--muted2);margin-top:4px">Largest obligation. Request amortization schedule from Alinma to understand exact remaining term.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PORTFOLIO -->
+    <div class="page" id="page-portfolio">
+      <div class="g4">
+        <div class="metric"><div class="metric-label">Portfolio value</div><div class="metric-val c-gold" id="port-total">101,682</div><div class="metric-sub" id="port-sub">SAR · statement prices</div></div>
+        <div class="metric"><div class="metric-label">Cost basis</div><div class="metric-val">138,731</div><div class="metric-sub">SAR total invested</div></div>
+        <div class="metric"><div class="metric-label">Unrealized P&amp;L</div><div class="metric-val c-red" id="port-pnl">−SAR 37,088</div><div class="metric-sub" id="port-pnl-pct">-26.7%</div></div>
+        <div class="metric"><div class="metric-label">Positions in profit</div><div class="metric-val c-green">3 / 14</div><div class="metric-sub">Bupa, Omar Jabal, Masar</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">All holdings — Ahmed's portfolio (live prices where available)</div>
+        <table class="ptable">
+          <thead><tr><th>Ticker</th><th>Shares</th><th>Last price</th><th>Mkt value</th><th>Cost</th><th>P&amp;L</th><th>Signal</th></tr></thead>
+          <tbody id="portfolio-tbody">
+            <tr><td><div class="ticker-cell">SAL</div><div class="name-cell">4263</div></td><td>291</td><td id="p-sal">155.50</td><td id="pv-sal">45,251</td><td>54,043</td><td id="pp-sal" class="c-red">-16.3%</td><td><span class="tag t-muted">HOLD</span></td></tr>
+            <tr><td><div class="ticker-cell">LEEJAM</div><div class="name-cell">1830</div></td><td>174</td><td id="p-leejam">81.90</td><td id="pv-leejam">14,251</td><td>18,564</td><td id="pp-leejam" class="c-red">-23.2%</td><td><span class="tag t-muted">HOLD</span></td></tr>
+            <tr><td><div class="ticker-cell">ELM</div><div class="name-cell">7203</div></td><td>21</td><td id="p-elm">541.50</td><td id="pv-elm">11,372</td><td>15,413</td><td id="pp-elm" class="c-red">-26.2%</td><td><span class="tag t-muted">HOLD</span></td></tr>
+            <tr><td><div class="ticker-cell">Bupa</div><div class="name-cell">8210</div></td><td>46</td><td id="p-bupa">171.30</td><td id="pv-bupa">7,880</td><td>7,763</td><td id="pp-bupa" class="c-green">+1.5%</td><td><span class="tag t-green">HOLD ✓</span></td></tr>
+            <tr><td><div class="ticker-cell">ENTAJ</div><div class="name-cell">2287</div></td><td>294</td><td id="p-entaj">25.42</td><td id="pv-entaj">7,473</td><td>16,506</td><td id="pp-entaj" class="c-red">-54.7%</td><td><span class="tag t-red">REVIEW</span></td></tr>
+            <tr><td><div class="ticker-cell">DERAYAH</div><div class="name-cell">4084</div></td><td>244</td><td id="p-derayah">22.00</td><td id="pv-derayah">5,368</td><td>7,767</td><td id="pp-derayah" class="c-red">-30.9%</td><td><span class="tag t-amber">WATCH</span></td></tr>
+            <tr><td><div class="ticker-cell">WATANIYA</div><div class="name-cell">8300</div></td><td>358</td><td id="p-wataniya">12.35</td><td id="pv-wataniya">4,421</td><td>7,826</td><td id="pp-wataniya" class="c-red">-43.5%</td><td><span class="tag t-red">REVIEW</span></td></tr>
+            <tr><td><div class="ticker-cell">LUMI</div><div class="name-cell">4262</div></td><td>93</td><td id="p-lumi">37.96</td><td id="pv-lumi">3,530</td><td>6,440</td><td id="pp-lumi" class="c-red">-45.2%</td><td><span class="tag t-red">REVIEW</span></td></tr>
+            <tr><td><div class="ticker-cell">NICE ONE</div><div class="name-name">4193</div></td><td>68</td><td id="p-nice">12.95</td><td id="pv-nice">881</td><td>2,706</td><td id="pp-nice" class="c-red">-67.5%</td><td><span class="tag t-red">REVIEW</span></td></tr>
+            <tr><td><div class="ticker-cell">FLYNAS</div><div class="name-cell">4264</div></td><td>10</td><td id="p-flynas">50.90</td><td id="pv-flynas">509</td><td>800</td><td id="pp-flynas" class="c-red">-36.4%</td><td><span class="tag t-amber">WATCH</span></td></tr>
+            <tr><td><div class="ticker-cell">OMAR JABAL</div><div class="name-cell">4250</div></td><td>20</td><td id="p-omar">15.13</td><td id="pv-omar">303</td><td>295</td><td id="pp-omar" class="c-green">+2.6%</td><td><span class="tag t-green">HOLD ✓</span></td></tr>
+            <tr><td><div class="ticker-cell">MASAR</div><div class="name-cell">4325</div></td><td>10</td><td id="p-masar">16.27</td><td id="pv-masar">163</td><td>150</td><td id="pp-masar" class="c-green">+8.5%</td><td><span class="tag t-green">HOLD ✓</span></td></tr>
+            <tr><td><div class="ticker-cell">UCIC</div><div class="name-cell">1323</div></td><td>6</td><td id="p-ucic">23.40</td><td id="pv-ucic">140</td><td>299</td><td id="pp-ucic" class="c-red">-53.0%</td><td><span class="tag t-red">REVIEW</span></td></tr>
+            <tr><td><div class="ticker-cell">TADAWUL</div><div class="name-cell">1111</div></td><td>1</td><td id="p-tadawul">140.00</td><td id="pv-tadawul">140</td><td>198</td><td id="pp-tadawul" class="c-red">-28.9%</td><td><span class="tag t-muted">HOLD</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert a-warn"><div class="a-title">5 positions flagged for review</div>ENTAJ, NICE ONE, UCIC, WATANIYA, LUMI — all down 43–67%. Ask the AI Advisor for a position-by-position analysis with cut/hold recommendations.</div>
+    </div>
+
+    <!-- GOALS -->
+    <div class="page" id="page-goals">
+      <div class="goal-form">
+        <div class="card-title" style="margin-bottom:10px">Add a financial goal</div>
+        <div class="form-row">
+          <div><div class="form-label">Goal name</div><input type="text" id="g-name" placeholder="e.g. Emergency fund" style="width:100%"></div>
+          <div><div class="form-label">Target (SAR)</div><input type="number" id="g-target" placeholder="e.g. 100000" style="width:100%"></div>
+          <div><div class="form-label">Current (SAR)</div><input type="number" id="g-current" placeholder="e.g. 6727" style="width:100%"></div>
+          <div><button class="btn btn-gold" onclick="addGoal()" style="height:36px;white-space:nowrap">+ Add</button></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">
+          <div><div class="form-label">Deadline</div><input type="month" id="g-date" style="width:100%"></div>
+          <div><div class="form-label">Monthly contribution (SAR)</div><input type="number" id="g-monthly" placeholder="e.g. 3000" style="width:100%"></div>
+        </div>
+      </div>
+      <div id="goals-list"><div class="goal-card" id="goal-1">
+      <div class="goal-header">
+        <div><div class="goal-title">Emergency fund</div><div class="goal-deadline">Target: SAR 110,000 · 2027-03 · ~35 months</div></div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="tag" style="background:rgba(62,207,142,0.15);color:#3ecf8e">6%</span>
+          <span onclick="deleteGoal(1)" style="cursor:pointer;color:var(--muted);font-size:16px;padding:2px 6px" title="Delete">×</span>
+        </div>
+      </div>
+      <div class="goal-progress"><div class="goal-fill" style="width:6%;background:#3ecf8e"></div></div>
+      <div class="goal-nums"><span>SAR 6,727</span><span>SAR 110,000</span></div>
+    </div><div class="goal-card" id="goal-2">
+      <div class="goal-header">
+        <div><div class="goal-title">Portfolio target</div><div class="goal-deadline">Target: SAR 300,000 · 2028-12 · ~40 months</div></div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="tag" style="background:rgba(201,169,110,0.15);color:#c9a96e">34%</span>
+          <span onclick="deleteGoal(2)" style="cursor:pointer;color:var(--muted);font-size:16px;padding:2px 6px" title="Delete">×</span>
+        </div>
+      </div>
+      <div class="goal-progress"><div class="goal-fill" style="width:34%;background:#c9a96e"></div></div>
+      <div class="goal-nums"><span>SAR 101,804</span><span>SAR 300,000</span></div>
+    </div><div class="goal-card" id="goal-3">
+      <div class="goal-header">
+        <div><div class="goal-title">Clear Alinma CC</div><div class="goal-deadline">Target: SAR 3,899 · 2026-04 · ~1 months</div></div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="tag" style="background:rgba(248,113,113,0.15);color:#f87171">0%</span>
+          <span onclick="deleteGoal(3)" style="cursor:pointer;color:var(--muted);font-size:16px;padding:2px 6px" title="Delete">×</span>
+        </div>
+      </div>
+      <div class="goal-progress"><div class="goal-fill" style="width:0%;background:#f87171"></div></div>
+      <div class="goal-nums"><span>SAR 0</span><span>SAR 3,899</span></div>
+    </div></div>
+    </div>
+
+    <!-- SCENARIO -->
+    <div class="page" id="page-scenario">
+      <div class="g2">
+        <div class="card">
+          <div class="card-title">Cash flow scenario planner</div>
+          <div class="risk-slider-wrap">
+            <div class="risk-label-row"><span class="risk-label">Monthly D360 budget</span><span class="risk-val" id="d360-v">SAR 3,000</span></div>
+            <input type="range" min="0" max="15000" step="500" value="3000" oninput="calcScenario()">
+          </div>
+          <div class="risk-slider-wrap">
+            <div class="risk-label-row"><span class="risk-label">Monthly dining budget</span><span class="risk-val" id="dining-v">SAR 3,500</span></div>
+            <input type="range" min="500" max="8000" step="250" value="3500" oninput="calcScenario()">
+          </div>
+          <div class="risk-slider-wrap">
+            <div class="risk-label-row"><span class="risk-label">ARC monthly investment</span><span class="risk-val" id="invest-v">SAR 5,000</span></div>
+            <input type="range" min="0" max="15000" step="500" value="5000" oninput="calcScenario()">
+          </div>
+          <div class="risk-slider-wrap">
+            <div class="risk-label-row"><span class="risk-label">Extra debt payment</span><span class="risk-val" id="extra-v">SAR 0</span></div>
+            <input type="range" min="0" max="10000" step="500" value="0" oninput="calcScenario()">
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px;margin-top:8px">
+            <div class="sc-row"><span class="c-muted">Salary</span><span>SAR 36,500</span></div>
+            <div class="sc-row"><span class="c-muted">Fixed obligations</span><span class="c-red">− SAR 18,039</span></div>
+            <div class="sc-row"><span class="c-muted">D360 + dining</span><span class="c-red" id="sc-var">− SAR 6,500</span></div>
+            <div class="sc-row"><span class="c-muted">ARC investing</span><span class="c-green" id="sc-inv">− SAR 5,000</span></div>
+            <div class="sc-row"><span class="c-muted">Extra debt payment</span><span class="c-amber" id="sc-extra">SAR 0</span></div>
+            <div class="sc-row"><span class="c-muted">Est. other (fuel, pharma, etc)</span><span class="c-red">− SAR 3,500</span></div>
+            <div class="sc-row"><span style="font-family:&#39;Syne&#39;,sans-serif">Monthly surplus</span><span id="sc-surplus" class="c-green" style="font-family:&#39;Syne&#39;,sans-serif;font-size:16px">SAR 3,461</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Annual projection</div>
+          <div id="annual-proj" style="margin-bottom:16px">
+            <div class="row-div"><span class="c-muted">Annual investing (12mo)</span><span class="c-green" id="ap-invest">SAR 60,000</span></div>
+            <div class="row-div"><span class="c-muted">Annual surplus saved</span><span id="ap-surplus">SAR 41,532</span></div>
+            <div class="row-div"><span class="c-muted">Portfolio in 1yr (at 8% CAGR)</span><span class="c-gold" id="ap-port">SAR 169,948</span></div>
+            <div class="row-div"><span class="c-muted">Months to clear Alinma CC</span><span class="c-amber" id="ap-cc">~2 months</span></div>
+          </div>
+          <div class="div"></div>
+          <div class="card-title">Early Alinma payoff impact</div>
+          <div class="risk-slider-wrap">
+            <div class="risk-label-row"><span class="risk-label">Extra monthly (Alinma)</span><span class="risk-val" id="early-v">SAR 0</span></div>
+            <input type="range" min="0" max="10000" step="500" value="0" oninput="calcEarlyPayoff()">
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px">
+            <div class="sc-row"><span class="c-muted">Base monthly</span><span>SAR 10,149</span></div>
+            <div class="sc-row"><span class="c-muted">Extra payment</span><span class="c-amber" id="ep-extra">SAR 0</span></div>
+            <div class="sc-row"><span class="c-muted">Est. months saved</span><span class="c-green" id="ep-saved">0 months</span></div>
+            <div class="sc-row"><span class="c-muted">Interest saved (est.)</span><span class="c-green" id="ep-interest">SAR 0</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI ADVISOR -->
+    <div class="page" id="page-advisor">
+      <div class="chat-outer">
+        <div class="chat-msgs" id="chat-msgs">
+          <div class="cmsg ai"><div class="cbub">
+            <strong>MIZA is ready.</strong> I have your complete financial picture — 5 accounts, 14 holdings, all obligations, 3 months of transaction history, and I'm fetching live TASI prices for your portfolio right now.<br><br>
+            Two things need your attention today: <span style="color:#f87171">Alinma CC SAR 3,899 due in 12 days at 13% APR</span> and your portfolio is down 26.7% with 5 positions needing a cut/hold decision.<br><br>
+            What would you like to work through?
+          </div></div>
+        </div>
+        <div class="chat-bottom">
+          <div class="qa-wrap">
+            <div class="qa" onclick="ask(&#39;Should I pay the Alinma CC SAR 3,899 today?&#39;)">Pay CC now?</div>
+            <div class="qa" onclick="ask(&#39;Full hold/cut analysis for ENTAJ, NICE ONE, UCIC, WATANIYA, LUMI&#39;)">Portfolio review</div>
+            <div class="qa" onclick="ask(&#39;What is my realistic net worth right now?&#39;)">Net worth</div>
+            <div class="qa" onclick="ask(&#39;When EPP ends in June, invest or pay debt?&#39;)">EPP strategy</div>
+            <div class="qa" onclick="ask(&#39;Give me a 3-year financial plan to improve my score from 65 to 85&#39;)">3-year plan</div>
+            <div class="qa" onclick="ask(&#39;Am I over-leveraged? What does my debt ratio say?&#39;)">Leverage check</div>
+            <div class="qa" onclick="ask(&#39;Best way to use 94,881 Alfursan miles?&#39;)">Miles strategy</div>
+            <div class="qa" onclick="ask(&#39;What monthly D360 cap keeps me in surplus every month?&#39;)">D360 cap</div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" id="chat-in" placeholder="Ask MIZA anything about your investments or finances..." onkeydown="if(event.key===&#39;Enter&#39;)send()">
+            <button class="send-btn" onclick="send()">ASK ↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RISK PROFILE -->
+    <div class="page" id="page-risk">
+      <div class="g2">
+        <div class="card">
+          <div class="card-title">Your risk profile</div>
+          <div class="risk-slider-wrap">
+            <div class="risk-label-row"><span class="risk-label">Loss tolerance (max acceptable annual loss)</span><span class="risk-val" id="rk-loss-v">20%</span></div>
+            <input type="range" min="5" max="50" step="5" value="20" oninput="updateRisk()" id="rk-loss">
+          </div>
+          <div class="risk-slider-wrap">
+            <div class="risk-label-row"><span class="risk-label">Investment horizon (years)</span><span class="risk-val" id="rk-horizon-v">5 years</span></div>
+            <input type="range" min="1" max="20" step="1" value="5" oninput="updateRisk()" id="rk-horizon">
+          </div>
+          <div class="risk-slider-wrap">
+            <div class="risk-label-row"><span class="risk-label">Liquidity need (months of expenses as cash)</span><span class="risk-val" id="rk-liq-v">3 months</span></div>
+            <input type="range" min="1" max="12" step="1" value="3" oninput="updateRisk()" id="rk-liq">
+          </div>
+          <div class="risk-slider-wrap">
+            <div class="risk-label-row"><span class="risk-label">Saudi vs Global allocation preference</span><span class="risk-val" id="rk-geo-v">100% Saudi</span></div>
+            <input type="range" min="0" max="100" step="10" value="100" oninput="updateRisk()" id="rk-geo">
+          </div>
+          <div class="risk-result" id="risk-result">
+            <div style="margin-bottom:10px">
+              <div class="card-title" style="margin-bottom:6px">Your risk profile</div>
+              <div class="risk-gauge" id="risk-gauge">
+                <div class="risk-seg active" style="background:#3ecf8e"></div>
+                <div class="risk-seg active" style="background:#3ecf8e"></div>
+                <div class="risk-seg" style="background:#fbbf24"></div>
+                <div class="risk-seg" style="background:#fbbf24"></div>
+                <div class="risk-seg" style="background:#f87171"></div>
+              </div>
+              <div id="risk-label" style="font-family: Syne, sans-serif; font-size: 18px; font-weight: 700; color: rgb(52, 211, 153); margin-bottom: 6px;">Moderate-Conservative</div>
+              <div id="risk-desc" style="font-size:12px;color:var(--muted2);line-height:1.7">Balanced approach with some growth. Your TASI exposure is high for this profile — consider 15% global diversification via ETFs.</div>
+            </div>
+            <div class="div"></div>
+            <div style="font-size:12px;color:var(--muted2);margin-bottom:6px;font-weight:600">Recommended allocation based on your profile:</div>
+            <div class="br"><span class="bl">Saudi blue-chip stocks</span><div class="bt"><div class="bf" style="width:50%;background:#c9a96e" id="alloc-sa"></div></div><span class="bv c-gold" id="alloc-sa-v">50%</span></div>
+            <div class="br"><span class="bl">Saudi ETFs / mutual funds</span><div class="bt"><div class="bf" style="width:20%;background:#3ecf8e" id="alloc-etf"></div></div><span class="bv c-green" id="alloc-etf-v">20%</span></div>
+            <div class="br"><span class="bl">Global / US exposure</span><div class="bt"><div class="bf" style="width: 10%; background: rgb(96, 165, 250);" id="alloc-global"></div></div><span class="bv c-blue" id="alloc-global-v">10%</span></div>
+            <div class="br"><span class="bl">Cash buffer</span><div class="bt"><div class="bf" style="width: 20%; background: rgb(148, 163, 184);" id="alloc-cash"></div></div><span class="bv c-muted" id="alloc-cash-v">20%</span></div>
+          </div>
+          <button class="btn btn-gold" style="width:100%;margin-top:12px" onclick="saveRisk()">Save risk profile</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Current portfolio vs your risk profile</div>
+          <div class="alert a-warn" style="margin-bottom:12px"><div class="a-title">Mismatch detected</div>Your portfolio is 100% Saudi equities, concentrated in mid/small caps. Your stated moderate profile suggests 20% global diversification and 10% cash buffer. This is actionable once the market recovers.</div>
+          <div class="card-subtitle">Concentration risk</div>
+          <div class="br"><span class="bl">SAL (largest holding)</span><div class="bt"><div class="bf" style="width:100%;background:#c9a96e"></div></div><span class="bv c-gold">44.4%</span></div>
+          <div class="br"><span class="bl">LEEJAM</span><div class="bt"><div class="bf" style="width:31%;background:#60a5fa"></div></div><span class="bv c-blue">14.0%</span></div>
+          <div class="br"><span class="bl">ELM</span><div class="bt"><div class="bf" style="width:25%;background:#60a5fa"></div></div><span class="bv c-blue">11.2%</span></div>
+          <div class="br"><span class="bl">Bupa Arabia</span><div class="bt"><div class="bf" style="width:17%;background:#3ecf8e"></div></div><span class="bv c-green">7.7%</span></div>
+          <div class="br"><span class="bl">ENTAJ</span><div class="bt"><div class="bf" style="width:16%;background:#f87171"></div></div><span class="bv c-red">7.3%</span></div>
+          <div class="br"><span class="bl">10 others</span><div class="bt"><div class="bf" style="width:33%;background:#94a3b8"></div></div><span class="bv c-muted">15.4%</span></div>
+          <div class="div"></div>
+          <div class="alert a-info"><div class="a-title">SAL is 44% of your portfolio</div>Single-stock concentration at this level amplifies both upside and downside. A 20% move in SAL swings your portfolio by ~SAR 9K.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="./MIZA — Personal Investment Advisor_files/chart.umd.js"></script>
+<!-- API KEY MODAL -->
+<div id="key-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 32px;width:420px;max-width:90vw;">
+    <div style="font-family:&#39;Syne&#39;,sans-serif;font-size:20px;font-weight:800;color:var(--gold);margin-bottom:6px;">Enter API Key</div>
+    <div style="font-size:12px;color:var(--muted2);margin-bottom:20px;line-height:1.7;">Paste your Anthropic API key below to enable the AI Advisor. It stays in this browser session only.</div>
+    <input id="key-input" type="text" placeholder="sk-ant-api03-..." style="width:100%;background:var(--bg4);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:&#39;DM Sans&#39;,sans-serif;font-size:12px;outline:none;margin-bottom:12px;">
+    <button onclick="saveKey()" style="width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:8px;padding:12px;font-family:&#39;Syne&#39;,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">Save &amp; Start</button>
+  </div>
+</div>
+
+<script>
+// ── HOLDINGS DATA ──
+const HOLDINGS = [
+  {id:'sal',   sym:'SAL',       code:'4263', shares:291,  cost:185.72, last:155.50},
+  {id:'leejam',sym:'LEEJAM',    code:'1830', shares:174,  cost:106.69, last:81.90},
+  {id:'elm',   sym:'ELM',       code:'7203', shares:21,   cost:733.95, last:541.50},
+  {id:'bupa',  sym:'Bupa',      code:'8210', shares:46,   cost:168.76, last:171.30},
+  {id:'entaj', sym:'ENTAJ',     code:'2287', shares:294,  cost:56.14,  last:25.42},
+  {id:'derayah',sym:'DERAYAH',  code:'4084', shares:244,  cost:31.83,  last:22.00},
+  {id:'wataniya',sym:'WATANIYA',code:'8300', shares:358,  cost:21.86,  last:12.35},
+  {id:'lumi',  sym:'LUMI',      code:'4262', shares:93,   cost:69.25,  last:37.96},
+  {id:'nice',  sym:'NICE ONE',  code:'4193', shares:68,   cost:39.79,  last:12.95},
+  {id:'flynas',sym:'FLYNAS',    code:'4264', shares:10,   cost:80.00,  last:50.90},
+  {id:'omar',  sym:'OMAR JABAL',code:'4250', shares:20,   cost:14.75,  last:15.13},
+  {id:'masar', sym:'MASAR',     code:'4325', shares:10,   cost:15.00,  last:16.27},
+  {id:'ucic',  sym:'UCIC',      code:'1323', shares:6,    cost:49.83,  last:23.40},
+  {id:'tadawul',sym:'TADAWUL',  code:'1111', shares:1,    cost:197.00, last:140.00},
+];
+
+let livePrices = {};
+let pricesLoaded = false;
+
+// ── LIVE PRICE FETCH ──
+async function fetchPrices() {
+  const btn = document.getElementById('refresh-btn');
+  const dot = document.getElementById('price-dot');
+  const statusText = document.getElementById('price-status-text');
+  btn.innerHTML = '⟳ Fetching...';
+  btn.classList.add('spinning');
+  dot.className = 'price-dot loading';
+  statusText.textContent = 'Fetching live TASI prices...';
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'x-api-key': getKey(), 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        tools: [{type: 'web_search_20250305', name: 'web_search'}],
+        messages: [{role: 'user', content: `Search for current stock prices on Tadawul (Saudi stock exchange) for these tickers: SAL (4263), LEEJAM (1830), ELM (7203), Bupa Arabia (8210), ENTAJ (2287), DERAYAH (4084), WATANIYA (8300), LUMI (4262), NICE ONE (4193), FLYNAS (4264). Also get the current TASI index level. Return ONLY a JSON object like: {"TASI":{"price":12000,"change":0.5},"SAL":{"price":155.5,"change":-1.2},...} with no other text, no markdown.`}]
+      })
+    });
+    const data = await resp.json();
+    const textBlock = data.content?.find(b => b.type === 'text');
+    if (textBlock) {
+      const raw = textBlock.text.replace(/```json|```/g,'').trim();
+      const jsonMatch = raw.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        livePrices = JSON.parse(jsonMatch[0]);
+        updatePortfolioWithLivePrices();
+        updateTicker();
+        pricesLoaded = true;
+        dot.className = 'price-dot';
+        statusText.textContent = 'Live prices loaded — ' + new Date().toLocaleTimeString('en-SA', {hour:'2-digit',minute:'2-digit'});
+        generateLiveSignal();
+      }
+    }
+  } catch(e) {
+    dot.className = 'price-dot stale';
+    statusText.textContent = 'Using statement prices (live fetch unavailable)';
+  }
+  btn.innerHTML = '⟳ Refresh prices';
+  btn.classList.remove('spinning');
+}
+
+function updatePortfolioWithLivePrices() {
+  let totalValue = 0;
+  let totalCost = 0;
+  HOLDINGS.forEach(h => {
+    const liveData = livePrices[h.sym] || livePrices[h.id.toUpperCase()];
+    const price = liveData ? liveData.price : h.last;
+    const mktVal = Math.round(price * h.shares);
+    const costBasis = Math.round(h.cost * h.shares);
+    const pnlPct = ((price - h.cost) / h.cost * 100).toFixed(1);
+    totalValue += mktVal;
+    totalCost += costBasis;
+    const priceEl = document.getElementById('p-'+h.id);
+    const valEl = document.getElementById('pv-'+h.id);
+    const pnlEl = document.getElementById('pp-'+h.id);
+    if(priceEl) priceEl.textContent = price.toFixed(2) + (liveData ? ' ●' : '');
+    if(valEl) valEl.textContent = mktVal.toLocaleString();
+    if(pnlEl) { pnlEl.textContent = (pnlPct>0?'+':'')+pnlPct+'%'; pnlEl.className = pnlPct>0?'c-green':'c-red'; }
+  });
+  const pnl = totalValue - totalCost;
+  const pnlPct = (pnl/totalCost*100).toFixed(1);
+  document.getElementById('port-total').textContent = totalValue.toLocaleString();
+  document.getElementById('port-pnl').textContent = (pnl<0?'−SAR ':'SAR ')+Math.abs(Math.round(pnl)).toLocaleString();
+  document.getElementById('port-pnl-pct').textContent = (pnlPct>0?'+':'')+pnlPct+'%';
+  document.getElementById('dash-port-val').textContent = totalValue.toLocaleString();
+  document.getElementById('dash-port-sub').textContent = (pnl<0?'−':'+')+' SAR '+Math.abs(Math.round(pnl)).toLocaleString()+' unrealized';
+  document.getElementById('dash-pval').textContent = 'SAR '+totalValue.toLocaleString();
+  const total = totalValue + 79082 + 6727 + 48;
+  document.getElementById('dash-total').textContent = 'SAR '+total.toLocaleString();
+  document.getElementById('nw-liq').textContent = 'SAR '+total.toLocaleString();
+  document.getElementById('nw-port1').textContent = 'SAR '+totalValue.toLocaleString();
+  document.getElementById('port-sub').textContent = pricesLoaded ? 'SAR · live prices' : 'SAR · statement prices';
+}
+
+function updateTicker() {
+  const tickers = {
+    'tk-tasi': livePrices['TASI'],
+    'tk-sal': livePrices['SAL'],
+    'tk-elm': livePrices['ELM'],
+    'tk-bupa': livePrices['Bupa'],
+    'tk-leejam': livePrices['LEEJAM']
+  };
+  Object.entries(tickers).forEach(([id, data]) => {
+    const el = document.getElementById(id);
+    if(el && data) {
+      const chg = data.change || 0;
+      el.textContent = data.price?.toFixed(2) || '—';
+      el.nextSibling && (el.nextSibling.remove());
+      const chgSpan = document.createElement('span');
+      chgSpan.className = 'ticker-chg ' + (chg >= 0 ? 'ticker-up' : 'ticker-dn');
+      chgSpan.textContent = ' ' + (chg>=0?'+':'') + chg.toFixed(2) + '%';
+      el.after(chgSpan);
+    }
+  });
+}
+
+function generateLiveSignal() {
+  const el = document.getElementById('live-signal-1');
+  if(!el || !livePrices) return;
+  const sal = livePrices['SAL'];
+  if(sal) {
+    const pctChange = sal.change || 0;
+    const isDown = pctChange < -2;
+    el.innerHTML = `
+      <div class="signal-icon ${isDown?'si-amber':'si-blue'}">◈</div>
+      <div class="signal-content">
+        <div class="signal-title">SAL (4263) — ${isDown?'Under pressure today':'Live price update'}</div>
+        <div class="signal-desc">Current price: ${sal.price?.toFixed(2) || '—'} SAR (${pctChange>=0?'+':''}${pctChange.toFixed(2)}% today). SAL is your largest holding at 44% of portfolio — SAR 45K exposure. ${isDown?'Today\'s move adds to your unrealized loss. Monitor closely.':'Tracking within normal range.'}</div>
+        <div class="signal-meta">Source: Live TASI data · ${new Date().toLocaleTimeString('en-SA')}</div>
+      </div>`;
+  }
+}
+
+// ── NAVIGATION ──
+const PAGE_TITLES = {dashboard:'Dashboard',signals:'Signals',briefing:'Weekly briefing',networth:'Net worth',cashflow:'Cash flow',debt:'Debt payoff',portfolio:'Portfolio',goals:'Goals',scenario:'Scenario planner',advisor:'AI Advisor',risk:'Risk profile'};
+function nav(id, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  document.getElementById('page-title').textContent = PAGE_TITLES[id] || id;
+}
+
+// ── CASH FLOW TABS ──
+function showCF(m, btn) {
+  ['jan','feb','mar'].forEach(x=>{const el=document.getElementById('cf-'+x);if(el)el.style.display='none';});
+  const el=document.getElementById('cf-'+m);if(el)el.style.display='block';
+  document.querySelectorAll('#page-cashflow .btn').forEach(b=>{b.classList.remove('btn-gold');b.classList.add('btn-ghost');});
+  if(btn){btn.classList.add('btn-gold');btn.classList.remove('btn-ghost');}
+}
+
+// ── SCENARIO ──
+function calcScenario() {
+  const sliders = document.querySelectorAll('#page-scenario input[type=range]');
+  const d360=parseInt(sliders[0].value), dining=parseInt(sliders[1].value);
+  const invest=parseInt(sliders[2].value), extra=parseInt(sliders[3].value);
+  document.getElementById('d360-v').textContent='SAR '+d360.toLocaleString();
+  document.getElementById('dining-v').textContent='SAR '+dining.toLocaleString();
+  document.getElementById('invest-v').textContent='SAR '+invest.toLocaleString();
+  document.getElementById('extra-v').textContent='SAR '+extra.toLocaleString();
+  const varSpend=d360+dining;
+  const surplus=36500-18039-varSpend-invest-extra-3500;
+  document.getElementById('sc-var').textContent='− SAR '+varSpend.toLocaleString();
+  document.getElementById('sc-inv').textContent='− SAR '+invest.toLocaleString();
+  document.getElementById('sc-extra').textContent=extra>0?'− SAR '+extra.toLocaleString():'SAR 0';
+  const sEl=document.getElementById('sc-surplus');
+  sEl.textContent=(surplus>=0?'SAR ':'− SAR ')+Math.abs(surplus).toLocaleString();
+  sEl.className=surplus>=0?'c-green':'c-red';
+  document.getElementById('ap-invest').textContent='SAR '+(invest*12).toLocaleString();
+  document.getElementById('ap-surplus').textContent='SAR '+(Math.max(0,surplus)*12).toLocaleString();
+  const portGrowth=Math.round(101804*(1.08)+(invest*12));
+  document.getElementById('ap-port').textContent='SAR '+portGrowth.toLocaleString();
+  document.getElementById('ap-cc').textContent=surplus>3899?'This month':'~'+(Math.ceil(3899/Math.max(1,surplus)))+' months';
+}
+
+function calcEarlyPayoff() {
+  const slider=document.querySelector('#page-scenario div:last-child input[type=range]');
+  if(!slider)return;
+  const extra=parseInt(slider.value||0);
+  document.getElementById('early-v').textContent='SAR '+extra.toLocaleString();
+  document.getElementById('ep-extra').textContent='SAR '+extra.toLocaleString();
+  const saved=extra>0?Math.round((extra/10149)*48*0.7):0;
+  const interestSaved=extra>0?Math.round(saved*extra*0.08):0;
+  document.getElementById('ep-saved').textContent=saved>0?saved+' months':'0 months';
+  document.getElementById('ep-saved').className=saved>0?'c-green':'c-muted';
+  document.getElementById('ep-interest').textContent='SAR '+interestSaved.toLocaleString();
+}
+
+// ── RISK PROFILE ──
+function updateRisk() {
+  const loss=parseInt(document.getElementById('rk-loss').value);
+  const horizon=parseInt(document.getElementById('rk-horizon').value);
+  const liq=parseInt(document.getElementById('rk-liq').value);
+  const geo=parseInt(document.getElementById('rk-geo').value);
+  document.getElementById('rk-loss-v').textContent=loss+'%';
+  document.getElementById('rk-horizon-v').textContent=horizon+' year'+(horizon>1?'s':'');
+  document.getElementById('rk-liq-v').textContent=liq+' month'+(liq>1?'s':'');
+  document.getElementById('rk-geo-v').textContent=geo+'% Saudi';
+  const score=(loss/50*40)+(horizon/20*30)+(1-liq/12)*15+((100-geo)/100*15);
+  const segs=document.querySelectorAll('.risk-seg');
+  const active=Math.round(score/100*5);
+  segs.forEach((s,i)=>s.classList.toggle('active',i<active));
+  let label,desc,color;
+  if(score<30){label='Conservative';desc='Focus on capital preservation. Reduce equity concentration, increase cash buffer, consider fixed-income Sukuk products.';color='var(--green)';}
+  else if(score<50){label='Moderate-Conservative';desc='Balanced approach with some growth. Your TASI exposure is high for this profile — consider 15% global diversification via ETFs.';color='#34d399';}
+  else if(score<70){label='Moderate';desc='Can tolerate medium losses over medium horizon. Current all-Saudi portfolio is slightly riskier than profile. Target 20% global exposure.';color='var(--amber)';}
+  else if(score<85){label='Moderate-Aggressive';desc='Growth-oriented with medium to long horizon. Your debt obligations reduce effective risk capacity — keep 3 months cash buffer.';color='var(--gold)';}
+  else{label='Aggressive';desc='High growth focus, long horizon, high tolerance for volatility. Even so, 49% debt obligations are a constraint — address before increasing equity risk.';color='var(--red)';}
+  document.getElementById('risk-label').textContent=label;
+  document.getElementById('risk-label').style.color=color;
+  document.getElementById('risk-desc').textContent=desc;
+  const saLocal=Math.round(geo*0.5);
+  const etf=Math.round(20);
+  const global=Math.round((100-geo)*0.3+10);
+  const cash=Math.round(100-saLocal-etf-global);
+  document.getElementById('alloc-sa').style.width=saLocal+'%';
+  document.getElementById('alloc-sa-v').textContent=saLocal+'%';
+  document.getElementById('alloc-etf').style.width=etf+'%';
+  document.getElementById('alloc-etf-v').textContent=etf+'%';
+  document.getElementById('alloc-global').style.width=global+'%';
+  document.getElementById('alloc-global-v').textContent=global+'%';
+  document.getElementById('alloc-cash').style.width=Math.max(0,cash)+'%';
+  document.getElementById('alloc-cash-v').textContent=Math.max(0,cash)+'%';
+}
+
+function saveRisk() {
+  const profile={loss:document.getElementById('rk-loss').value,horizon:document.getElementById('rk-horizon').value,liq:document.getElementById('rk-liq').value,geo:document.getElementById('rk-geo').value,savedAt:new Date().toISOString()};
+  try{window.storage?.set('risk_profile',JSON.stringify(profile));}catch(e){}
+  const btn=event.target;btn.textContent='✓ Saved';btn.style.background='var(--green)';btn.style.color='var(--bg)';
+  setTimeout(()=>{btn.textContent='Save risk profile';btn.style.background='var(--gold)';},2000);
+}
+
+// ── GOALS ──
+let goals=[];
+
+async function loadGoals(){
+  const defaults=[
+    {id:1,name:'Emergency fund',target:110000,current:6727,monthly:3000,deadline:'2027-03',color:'#3ecf8e'},
+    {id:2,name:'Portfolio target',target:300000,current:101804,monthly:5000,deadline:'2028-12',color:'#c9a96e'},
+    {id:3,name:'Clear Alinma CC',target:3899,current:0,monthly:3899,deadline:'2026-04',color:'#f87171'},
+  ];
+  try{
+    const saved=await window.storage?.get('goals_ahmed');
+    goals=saved?JSON.parse(saved.value):defaults;
+  }catch(e){goals=defaults;}
+  renderGoals();
+}
+
+function renderGoals(){
+  const container=document.getElementById('goals-list');
+  if(!goals.length){container.innerHTML='<div style="color:var(--muted2);font-size:13px;padding:16px">No goals yet. Add one above.</div>';return;}
+  container.innerHTML=goals.map(g=>{
+    const pct=Math.min(100,Math.round((g.current/g.target)*100));
+    const remaining=g.target-g.current;
+    const months=g.monthly>0?Math.ceil(remaining/g.monthly):999;
+    return `<div class="goal-card" id="goal-${g.id}">
+      <div class="goal-header">
+        <div><div class="goal-title">${g.name}</div><div class="goal-deadline">Target: SAR ${g.target.toLocaleString()} · ${g.deadline||'No deadline'} · ~${months} months</div></div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="tag" style="background:rgba(${hexToRgb(g.color)},0.15);color:${g.color}">${pct}%</span>
+          <span onclick="deleteGoal(${g.id})" style="cursor:pointer;color:var(--muted);font-size:16px;padding:2px 6px" title="Delete">×</span>
+        </div>
+      </div>
+      <div class="goal-progress"><div class="goal-fill" style="width:${pct}%;background:${g.color}"></div></div>
+      <div class="goal-nums"><span>SAR ${g.current.toLocaleString()}</span><span>SAR ${g.target.toLocaleString()}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function hexToRgb(hex){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return `${r},${g},${b}`;}
+
+async function addGoal(){
+  const name=document.getElementById('g-name').value.trim();
+  const target=parseInt(document.getElementById('g-target').value)||0;
+  const current=parseInt(document.getElementById('g-current').value)||0;
+  const monthly=parseInt(document.getElementById('g-monthly').value)||0;
+  const deadline=document.getElementById('g-date').value;
+  if(!name||!target)return;
+  const colors=['#c9a96e','#3ecf8e','#60a5fa','#a78bfa','#fbbf24','#f87171'];
+  const g={id:Date.now(),name,target,current,monthly,deadline,color:colors[goals.length%colors.length]};
+  goals.push(g);
+  try{await window.storage?.set('goals_ahmed',JSON.stringify(goals));}catch(e){}
+  renderGoals();
+  ['g-name','g-target','g-current','g-monthly','g-date'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+}
+
+async function deleteGoal(id){
+  goals=goals.filter(g=>g.id!==id);
+  try{await window.storage?.set('goals_ahmed',JSON.stringify(goals));}catch(e){}
+  renderGoals();
+}
+
+// ── AI ADVISOR ──
+const CTX=`You are MIZA, an elite personal investment and financial advisor for Ahmed Abdulaziz Alghamdi, a senior professional at Al Rajhi Capital in Riyadh. You are sharp, direct, and give specific actionable advice — not generic disclaimers.
+
+COMPLETE VERIFIED FINANCIAL PICTURE:
+
+INCOME: SAR 36,500/month salary (25th of month). February 2026 exceptional bonus: SAR 144,000.
+
+FIXED MONTHLY OBLIGATIONS (SAR 18,039/month = 49% of salary):
+- Alinma personal finance (LD2319978930): SAR 10,149/month
+- ANB easy payment plan (0% interest, ends June 2026): SAR 2,224/month
+- Al Rajhi personal loan: SAR 1,908/month
+- Mortgage/Ijarah (LD1926200275): SAR 1,957/month (CORRECTED — was SAR 3,684, extra was one-time catch-up)
+- Driver salary via STC Bank transit: SAR 1,800/month
+
+ACCOUNTS:
+- Al Rajhi (main): SAR 6,727 as of 12 March 2026
+- STC Bank (transit): SAR 47.94 — pass-through for driver salary
+- Alinma bank: near zero — receives transfers to fund loan payments
+- Alinma CC (483432****9298): SAR 3,899 DUE 25 MARCH 2026 at 13% APR — URGENT
+- ANB Alfursan Infinite CC: SAR 7,210 EPP (0%), SAR 1,743 minimum due 2 April. 94,881 Alfursan miles accumulated.
+
+SPENDING HISTORY (D360 = travel/shopping app, NOT investing):
+- January 2026: DEFICIT month — D360 SAR 13,000 + AlUla trip SAR 2,100 + heavy dining SAR 4,700 = total outflows ~SAR 47,000 on SAR 36,500 salary. Balance dropped from SAR 16K to SAR 5.9K.
+- February 2026: Bonus month — SAR 74,906 CC payoff + SAR 47,590 outward transfers + SAR 10,000 ARC investment + obligations.
+- March 1-12: Healthy — SAR 8,000 invested day 1, no D360, moderate spend. Balance SAR 6,727.
+
+CONFIRMED ARC INVESTING (from Al Rajhi statements): January SAR 0, February SAR 10,000, March SAR 8,000.
+
+PORTFOLIO — Ahmed's ARC Account (3353), 14 TASI stocks:
+- Total market value: SAR 101,804
+- Total cost basis: SAR 138,731
+- Unrealized loss: SAR −36,927 (−26.7%)
+Holdings:
+- SAL (4263): 291 shares, avg cost 185.72, last 155.50 = SAR 45,251 (−16.3%) — LARGEST HOLDING 44% of portfolio
+- LEEJAM SPORTS (1830): 174 shares, avg 106.69, last 81.90 = SAR 14,251 (−23.2%)
+- ELM (7203): 21 shares, avg 733.95, last 541.50 = SAR 11,372 (−26.2%)
+- Bupa Arabia (8210): 46 shares, avg 168.76, last 171.30 = SAR 7,880 (+1.5%) — ONLY WINNER
+- ENTAJ (2287): 294 shares, avg 56.14, last 25.42 = SAR 7,473 (−54.7%) — REVIEW
+- DERAYAH (4084): 244 shares, avg 31.83, last 22.00 = SAR 5,368 (−30.9%)
+- WATANIYA (8300): 358 shares, avg 21.86, last 12.35 = SAR 4,421 (−43.5%) — REVIEW
+- LUMI (4262): 93 shares, avg 69.25, last 37.96 = SAR 3,530 (−45.2%) — REVIEW
+- NICE ONE (4193): 68 shares, avg 39.79, last 12.95 = SAR 881 (−67.4%) — REVIEW
+- FLYNAS (4264): 10 shares, avg 80.00, last 50.90 = SAR 509 (−36.4%)
+- OMAR JABAL (4250): 20 shares, avg 14.75, last 15.13 = SAR 303 (+2.6%)
+- MASAR (4325): 10 shares, avg 15.00, last 16.27 = SAR 163 (+8.5%)
+- UCIC (1323): 6 shares, avg 49.83, last 23.40 = SAR 140 (−53.2%) — REVIEW
+- TADAWUL GROUP (1111): 1 share, avg 197.00, last 140.00 = SAR 140 (−29.3%)
+
+ABDULRAHMAN ALGHAMDI (family member, managed separately):
+- SAR 79,082 total — SAR 50,519 Alwalla Technology Fund + SAR 23,401 Al Rajhi Inclusion Fund (−22%) + SAR 3,682 TASI small stocks
+
+FINANCIAL HEALTH SCORE: 65/100
+Strengths: Strong income, active investing habit, real estate asset
+Weaknesses: 49% debt ratio, portfolio −26.7%, 5 positions down 43-67%, tight liquidity
+
+UPCOMING: ANB EPP ends June 2026, freeing SAR 2,224/month. Key decision needed on redeployment.
+
+Be direct, specific, use SAR numbers. Max 200 words. No generic disclaimers. Act like a sharp private banker who knows this client well.`;
+
+async function send() {
+  const inp=document.getElementById('chat-in');
+  const msg=inp.value.trim();
+  if(!msg)return;
+  inp.value='';
+  const box=document.getElementById('chat-msgs');
+  box.innerHTML+=`<div class="cmsg user"><div class="cbub">${msg}</div></div>`;
+  const tid='t'+Date.now();
+  box.innerHTML+=`<div class="cmsg ai" id="${tid}"><div class="cbub"><div class="ty"><span></span><span></span><span></span></div></div></div>`;
+  box.scrollTop=box.scrollHeight;
+  try {
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system:CTX,messages:[{role:'user',content:msg}]})});
+    const d=await r.json();
+    const reply=d.content.map(c=>c.text||'').join('');
+    document.getElementById(tid).outerHTML=`<div class="cmsg ai"><div class="cbub">${reply.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>')}</div></div>`;
+  } catch(e) {
+    document.getElementById(tid).outerHTML=`<div class="cmsg ai"><div class="cbub" style="color:var(--red)">Connection error. Please try again.</div></div>`;
+  }
+  box.scrollTop=box.scrollHeight;
+}
+
+function ask(q){
+  nav('advisor',document.querySelectorAll('.nav-item')[10]);
+  document.getElementById('chat-in').value=q;
+  send();
+}
+
+// ── API KEY MANAGEMENT ──
+const _apiKey = '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';
+
+function getKey() { return _apiKey; }
+function saveKey() {}
+function showKeyModal() {}
+
+let balancesHidden = false;
+const BLUR_STYLE = 'blur(6px) brightness(0.3)';
+
+function toggleBalances() {
+  balancesHidden = !balancesHidden;
+  const btn = document.getElementById('hide-btn');
+  // All elements that show financial figures
+  const selectors = [
+    '.metric-val', '.nw-big', '.health-score',
+    '#dash-port-val', '#dash-pval', '#dash-total',
+    '#nw-total', '#nw-liq', '#nw-port1',
+    '#port-total', '#port-pnl',
+    '.row-div span:last-child', '.bv',
+    '#sc-surplus', '#ap-invest', '#ap-surplus', '#ap-port',
+    'td:not(:first-child)', '.goal-nums span',
+    '#chat-msgs .cbub'
+  ];
+  selectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.style.filter = balancesHidden ? BLUR_STYLE : '';
+      el.style.userSelect = balancesHidden ? 'none' : '';
+    });
+  });
+  // Also blur ticker
+  document.getElementById('price-ticker').style.filter = balancesHidden ? BLUR_STYLE : '';
+  btn.innerHTML = balancesHidden ? '🙈 Show' : '👁 Hide';
+  btn.style.borderColor = balancesHidden ? 'var(--gold)' : '';
+  btn.style.color = balancesHidden ? 'var(--gold)' : '';
+}
+
+// ── THURSDAY REMINDER ──
+function checkThursdayReminder() {
+  const today = new Date();
+  const isThursday = today.getDay() === 4; // 0=Sun, 4=Thu
+  if (!isThursday) return;
+  // Check if already dismissed today
+  const lastDismissed = localStorage.getItem('miza_thursday_dismissed');
+  const todayStr = today.toDateString();
+  if (lastDismissed === todayStr) return;
+  // Show banner
+  const banner = document.getElementById('thursday-banner');
+  banner.style.display = 'flex';
+  // Also request browser notification permission and send one
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('MIZA — Weekly Update Due 📂', {
+      body: 'Download your Al Rajhi statement and upload it to MIZA. Takes 5 minutes.',
+      icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📊</text></svg>'
+    });
+  } else if ('Notification' in window && Notification.permission !== 'denied') {
+    Notification.requestPermission().then(perm => {
+      if (perm === 'granted') {
+        new Notification('MIZA — Weekly Update Due 📂', {
+          body: 'Download your Al Rajhi statement and upload it to MIZA. Takes 5 minutes.',
+        });
+      }
+    });
+  }
+}
+
+function dismissThursdayBanner() {
+  document.getElementById('thursday-banner').style.display = 'none';
+  try { localStorage.setItem('miza_thursday_dismissed', new Date().toDateString()); } catch(e) {}
+}
+
+// ── INIT ──
+window.addEventListener('load', async () => {
+  await loadGoals();
+  fetchPrices();
+  calcScenario();
+  updateRisk();
+  updatePortfolioWithLivePrices();
+  checkThursdayReminder();
+});
+</script>
+
+
+</body></html>
